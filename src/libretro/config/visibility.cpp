@@ -151,18 +151,22 @@ bool MelonDsDs::CoreOptionVisibility::Update() noexcept {
     bool oldShowHybridOptions = ShowHybridOptions;
     bool oldShowVerticalLayoutOptions = ShowVerticalLayoutOptions;
     bool oldShowSecondaryScaleOptions = ShowSecondaryScaleOptions;
+    bool oldShowStackedOptions = ShowStackedOptions;
     bool anyHybridLayouts = false;
     bool anyVerticalLayouts = false;
     bool anySecondaryScaleLayouts = false;
+    bool anyStackedLayouts = false;
     for (unsigned i = 0; i < NumberOfShownScreenLayouts; i++) {
         optional<MelonDsDs::ScreenLayout> parsedLayout = ParseScreenLayout(get_variable(screen::SCREEN_LAYOUTS[i]));
         anyHybridLayouts |= !parsedLayout || IsHybridLayout(*parsedLayout) || IsLargeScreenLayout(*parsedLayout);
         anyVerticalLayouts |= !parsedLayout || LayoutSupportsScreenGap(*parsedLayout);
         anySecondaryScaleLayouts |= !parsedLayout || LayoutSupportsSecondaryScreenScale(*parsedLayout);
+        anyStackedLayouts |= !parsedLayout || IsStackedLargeScreenLayout(*parsedLayout);
     }
     ShowHybridOptions = anyHybridLayouts;
     ShowVerticalLayoutOptions = anyVerticalLayouts;
     ShowSecondaryScaleOptions = anySecondaryScaleLayouts;
+    ShowStackedOptions = anyStackedLayouts;
 
     if (!VisibilityInitialized || ShowHybridOptions != oldShowHybridOptions) {
         set_option_visible(screen::HYBRID_SMALL_SCREEN, ShowHybridOptions);
@@ -179,6 +183,11 @@ bool MelonDsDs::CoreOptionVisibility::Update() noexcept {
     if (!VisibilityInitialized || ShowSecondaryScaleOptions != oldShowSecondaryScaleOptions) {
         set_option_visible(screen::SECONDARY_SCREEN_SCALE, ShowSecondaryScaleOptions);
         set_option_visible(screen::SECONDARY_SCREEN_FILTERING, ShowSecondaryScaleOptions);
+        updated = true;
+    }
+
+    if (!VisibilityInitialized || ShowStackedOptions != oldShowStackedOptions) {
+        set_option_visible(screen::STACKED_SMALL_SCREEN_SIZE, ShowStackedOptions);
         updated = true;
     }
 

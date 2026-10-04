@@ -81,9 +81,9 @@ namespace MelonDsDs {
         }
     }
 
-    /// Large focused screen (scaled by the hybrid ratio) with the other screen
-    /// at native resolution directly underneath it. Because the small screen
-    /// is never downscaled, it stays sharp even with the software renderer.
+    /// Large focused screen with the other screen at native resolution directly underneath it.
+    /// Because the small screen is never downscaled, it stays sharp even with the software renderer.
+    /// How much the large screen is enlarged is set by the Stacked Small Screen Size option.
     constexpr bool IsStackedLargeScreenLayout(ScreenLayout layout) noexcept {
         switch (layout) {
             case ScreenLayout::StackedLargescreenTopLeft:
@@ -96,6 +96,35 @@ namespace MelonDsDs {
             default:
                 return false;
         }
+    }
+
+    /// A Stacked Large Screen layout whose large screen is the DS's bottom screen
+    constexpr bool IsStackedLargeScreenBottomLayout(ScreenLayout layout) noexcept {
+        switch (layout) {
+            case ScreenLayout::StackedLargescreenBottomLeft:
+            case ScreenLayout::StackedLargescreenBottomCenter:
+            case ScreenLayout::StackedLargescreenBottomRight:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /// The size of the large screen in a Stacked Large Screen layout, in pixels,
+    /// when the native-size small screen is \p smallScreenPercent of its width.
+    constexpr glm::uvec2 StackedLargeScreenSize(unsigned scale, unsigned smallScreenPercent) noexcept {
+        using namespace config::screen;
+        unsigned percent = std::clamp(smallScreenPercent, MIN_STACKED_SMALL_SCREEN_SIZE, MAX_STACKED_SMALL_SCREEN_SIZE);
+        if (percent == 33) {
+            // 33% stands for one third; enlarge by exactly 3x so Nearest filtering stays even
+            return glm::uvec2(scale * NDS_SCREEN_WIDTH * 3u, scale * NDS_SCREEN_HEIGHT * 3u);
+        }
+
+        // Rounded to the nearest whole pixel
+        return glm::uvec2(
+            scale * ((NDS_SCREEN_WIDTH * 100u + percent / 2) / percent),
+            scale * ((NDS_SCREEN_HEIGHT * 100u + percent / 2) / percent)
+        );
     }
 
     constexpr bool IsLargeScreenLayout(ScreenLayout layout) noexcept {
@@ -120,7 +149,12 @@ namespace MelonDsDs {
 
             // Hybrid or large-screen layout;
             // the small screens sit flush against the large one
-            NDS_SCREEN_WIDTH * (MAX_HYBRID_RATIO + 1)
+            std::max<unsigned>(
+                NDS_SCREEN_WIDTH * (MAX_HYBRID_RATIO + 1),
+
+                // Stacked large-screen layout at its smallest small screen
+                StackedLargeScreenSize(1, MIN_STACKED_SMALL_SCREEN_SIZE).x
+            )
         );
         // (Rotated layouts use the same image as Top/Bottom,
         // and the frontend rotates it for us.)
@@ -139,7 +173,7 @@ namespace MelonDsDs {
                 NDS_SCREEN_HEIGHT * MAX_HYBRID_RATIO,
 
                 // Stacked large-screen layout: large screen, gap, then a native-size screen
-                NDS_SCREEN_HEIGHT * (MAX_HYBRID_RATIO + 1) + MAX_SCREEN_GAP
+                StackedLargeScreenSize(1, MIN_STACKED_SMALL_SCREEN_SIZE).y + MAX_SCREEN_GAP + NDS_SCREEN_HEIGHT
             )
         );
     }
@@ -252,6 +286,20 @@ namespace MelonDsDs {
             resolutionScale = _scale;
         }
 
+        unsigned StackedSmallScreenSize() const noexcept { return stackedSmallScreenSize; }
+        void StackedSmallScreenSize(unsigned percent) noexcept {
+            if (IsStackedLargeScreenLayout(Layout()) && percent != stackedSmallScreenSize) _dirty = true;
+            stackedSmallScreenSize = percent;
+        }
+
+        /// The size of the enlarged screen in a Hybrid or Large Screen layout at 1x, in pixels
+        glm::uvec2 LargeScreenSize() const noexcept {
+            if (IsStackedLargeScreenLayout(Layout())) {
+                return StackedLargeScreenSize(1, stackedSmallScreenSize);
+            }
+            return NDS_SCREEN_SIZE<unsigned> * hybridRatio;
+        }
+
         unsigned HybridRatio() const noexcept { return hybridRatio; }
         void HybridRatio(unsigned _hybrid_ratio) noexcept {
             if (IsHybridLayout(Layout()) && _hybrid_ratio != hybridRatio) _dirty = true;
@@ -314,6 +362,7 @@ namespace MelonDsDs {
 
         HybridSideScreenDisplay hybridSmallScreenLayout;
         unsigned hybridRatio;
+        unsigned stackedSmallScreenSize;
 
         unsigned _layoutIndex;
         unsigned _numberOfLayouts;

@@ -94,6 +94,9 @@ namespace MelonDsDs::config {
         constexpr unsigned MAX_HYBRID_RATIO = 3;
         constexpr unsigned MAX_SCREEN_LAYOUTS = 8; // Chosen arbitrarily; if you need more, open a PR
         constexpr unsigned MAX_SCREEN_GAP = 126;
+        constexpr unsigned MIN_STACKED_SMALL_SCREEN_SIZE = 20; // percent of the large screen's width
+        constexpr unsigned MAX_STACKED_SMALL_SCREEN_SIZE = 100;
+        constexpr unsigned DEFAULT_STACKED_SMALL_SCREEN_SIZE = 50;
         static constexpr const char *const CATEGORY = "screen";
         static constexpr const char *const CURSOR_TIMEOUT = "melonds_cursor_timeout";
         static constexpr const char *const HYBRID_RATIO = "melonds_hybrid_ratio";
@@ -104,6 +107,7 @@ namespace MelonDsDs::config {
         static constexpr const char *const SCREEN_GAP = "melonds_screen_gap";
         static constexpr const char* const SECONDARY_SCREEN_SCALE = "melonds_secondary_screen_scale";
         static constexpr const char* const SECONDARY_SCREEN_FILTERING = "melonds_secondary_screen_filtering";
+        static constexpr const char* const STACKED_SMALL_SCREEN_SIZE = "melonds_stacked_small_screen_size";
         static constexpr const char *const SCREEN_LAYOUT1 = "melonds_screen_layout1";
         static constexpr const char *const SCREEN_LAYOUT2 = "melonds_screen_layout2";
         static constexpr const char *const SCREEN_LAYOUT3 = "melonds_screen_layout3";

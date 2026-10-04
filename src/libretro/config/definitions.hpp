@@ -80,6 +80,7 @@ namespace MelonDsDs::config::definitions {
         ScreenGap,
         SecondaryScreenScale,
         SecondaryScreenFiltering,
+        StackedSmallScreenSize,
 
         DnsOverride,
         Language,

@@ -133,7 +133,7 @@ void MelonDsDs::SoftwareRenderState::PrepareBuffers(const CoreConfig& config, co
     buffer.SetSize(screenLayout.BufferSize());
 
     if (IsHybridLayout(screenLayout.Layout()) || IsLargeScreenLayout(screenLayout.Layout())) {
-        uvec2 requiredHybridBufferSize = NDS_SCREEN_SIZE<unsigned> * screenLayout.HybridRatio();
+        uvec2 requiredHybridBufferSize = screenLayout.LargeScreenSize();
         hybridBuffer.SetSize(requiredHybridBufferSize);
 
         auto filter = config.ScreenFilter() == ScreenFilter::Nearest ? SCALER_TYPE_POINT : SCALER_TYPE_BILINEAR;
@@ -185,6 +185,8 @@ void MelonDsDs::SoftwareRenderState::DrawCursor(const InputState& input, const C
     float cursorRadius = config.CursorSize();
     if (screenLayout.Layout() == ScreenLayout::LargescreenBottom || screenLayout.Layout() == ScreenLayout::FlippedLargescreenBottom) {
         cursorRadius *= static_cast<float>(screenLayout.HybridRatio());
+    } else if (IsStackedLargeScreenBottomLayout(screenLayout.Layout())) {
+        cursorRadius *= static_cast<float>(screenLayout.LargeScreenSize().x) / NDS_SCREEN_WIDTH;
     }
 
     ScreenLayout layout = screenLayout.Layout();
@@ -250,14 +252,14 @@ void MelonDsDs::SoftwareRenderState::CombineScreens(
         }
     } 
     else if (IsLargeScreenLayout(layout)) {
-        bool focusTop = layout == ScreenLayout::LargescreenTop || layout == ScreenLayout::FlippedLargescreenTop || layout == ScreenLayout::StackedLargescreenTopLeft || layout == ScreenLayout::StackedLargescreenTopCenter || layout == ScreenLayout::StackedLargescreenTopRight;
+        bool focusTop = layout == ScreenLayout::LargescreenTop || layout == ScreenLayout::FlippedLargescreenTop || (IsStackedLargeScreenLayout(layout) && !IsStackedLargeScreenBottomLayout(layout));
         if (focusTop) {
             auto primaryBuffer = topBuffer;
             hybridScaler.Scale(hybridBuffer[0], primaryBuffer.data());
             buffer.CopyRows(
                 hybridBuffer[0],
                 screenLayout.GetTopScreenTranslation(),
-                NDS_SCREEN_SIZE<unsigned> * screenLayout.HybridRatio()
+                screenLayout.LargeScreenSize()
             );
             // If the top screen is the primary copy the bottom to the small screen
             CopyScreen(bottomBuffer.data(), screenLayout.GetBottomScreenTranslation(), layout);
@@ -267,7 +269,7 @@ void MelonDsDs::SoftwareRenderState::CombineScreens(
             buffer.CopyRows(
                 hybridBuffer[0],
                 screenLayout.GetBottomScreenTranslation(),
-                NDS_SCREEN_SIZE<unsigned> * screenLayout.HybridRatio()
+                screenLayout.LargeScreenSize()
             );            
             // If the bottom screen is the primary copy the top to the small screen
             CopyScreen(topBuffer.data(), screenLayout.GetTopScreenTranslation(), layout);

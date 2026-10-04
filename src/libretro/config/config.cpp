@@ -781,6 +781,13 @@ static void MelonDsDs::config::ParseScreenOptions(CoreConfig& config) noexcept {
         config.SetSecondaryScreenFilter(ScreenFilter::Nearest);
     }
 
+    if (optional<unsigned> value = ParseIntegerInRange<unsigned>(get_variable(STACKED_SMALL_SCREEN_SIZE), MIN_STACKED_SMALL_SCREEN_SIZE, MAX_STACKED_SMALL_SCREEN_SIZE)) {
+        config.SetStackedSmallScreenSize(*value);
+    } else {
+        retro::warn("Failed to get value for {}; defaulting to {}", STACKED_SMALL_SCREEN_SIZE, DEFAULT_STACKED_SMALL_SCREEN_SIZE);
+        config.SetStackedSmallScreenSize(DEFAULT_STACKED_SMALL_SCREEN_SIZE);
+    }
+
     if (optional<unsigned> value = ParseIntegerInList<unsigned>(get_variable(CURSOR_TIMEOUT), CURSOR_TIMEOUTS)) {
         config.SetCursorTimeout(*value);
     } else {
