@@ -162,6 +162,9 @@ namespace MelonDsDs {
         if (value == config::values::STACKED_LARGESCREEN_TOP_LEFT) return ScreenLayout::StackedLargescreenTopLeft;
         if (value == config::values::STACKED_LARGESCREEN_TOP_CENTER) return ScreenLayout::StackedLargescreenTopCenter;
         if (value == config::values::STACKED_LARGESCREEN_TOP_RIGHT) return ScreenLayout::StackedLargescreenTopRight;
+        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_LEFT) return ScreenLayout::StackedLargescreenBottomLeft;
+        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_CENTER) return ScreenLayout::StackedLargescreenBottomCenter;
+        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_RIGHT) return ScreenLayout::StackedLargescreenBottomRight;
         return std::nullopt;
     }
 

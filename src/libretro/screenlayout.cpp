@@ -129,8 +129,12 @@ constexpr mat3 StackedLargescreenSouthMatrix(unsigned resolutionScale, unsigned 
 constexpr unsigned StackedAlignment(MelonDsDs::ScreenLayout layout) noexcept {
     using MelonDsDs::ScreenLayout;
     switch (layout) {
-        case ScreenLayout::StackedLargescreenTopLeft: return 0;
-        case ScreenLayout::StackedLargescreenTopRight: return 2;
+        case ScreenLayout::StackedLargescreenTopLeft:
+        case ScreenLayout::StackedLargescreenBottomLeft:
+            return 0;
+        case ScreenLayout::StackedLargescreenTopRight:
+        case ScreenLayout::StackedLargescreenBottomRight:
+            return 2;
         default: return 1;
     }
 }
@@ -220,6 +224,10 @@ mat3 MelonDsDs::ScreenLayoutData::GetTopScreenMatrix(unsigned scale) const noexc
             return LargescreenEastMatrix(scale, hybridRatio);
         case ScreenLayout::FlippedLargescreenBottom:
             return FlippedLargescreenWestMatrix(scale, hybridRatio);
+        case ScreenLayout::StackedLargescreenBottomLeft:
+        case ScreenLayout::StackedLargescreenBottomCenter:
+        case ScreenLayout::StackedLargescreenBottomRight:
+            return StackedLargescreenSouthMatrix(scale, hybridRatio, screenGap, StackedAlignment(Layout()));
         default:
             return mat3(1);
     }
@@ -247,6 +255,9 @@ mat3 MelonDsDs::ScreenLayoutData::GetBottomScreenMatrix(unsigned scale) const no
         case ScreenLayout::FlippedHybridBottom:
             return FlippedHybridSouthwestMatrix(scale, hybridRatio);
         case ScreenLayout::LargescreenBottom:
+        case ScreenLayout::StackedLargescreenBottomLeft:
+        case ScreenLayout::StackedLargescreenBottomCenter:
+        case ScreenLayout::StackedLargescreenBottomRight:
             return HybridWestMatrix(scale, hybridRatio);
         case ScreenLayout::FlippedLargescreenBottom:
             return FlippedHybridEastMatrix(scale, hybridRatio);

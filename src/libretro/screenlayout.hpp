@@ -81,7 +81,7 @@ namespace MelonDsDs {
         }
     }
 
-    /// Large top screen (scaled by the hybrid ratio) with the bottom screen
+    /// Large focused screen (scaled by the hybrid ratio) with the other screen
     /// at native resolution directly underneath it. Because the small screen
     /// is never downscaled, it stays sharp even with the software renderer.
     constexpr bool IsStackedLargeScreenLayout(ScreenLayout layout) noexcept {
@@ -89,6 +89,9 @@ namespace MelonDsDs {
             case ScreenLayout::StackedLargescreenTopLeft:
             case ScreenLayout::StackedLargescreenTopCenter:
             case ScreenLayout::StackedLargescreenTopRight:
+            case ScreenLayout::StackedLargescreenBottomLeft:
+            case ScreenLayout::StackedLargescreenBottomCenter:
+            case ScreenLayout::StackedLargescreenBottomRight:
                 return true;
             default:
                 return false;

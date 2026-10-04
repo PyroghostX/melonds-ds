@@ -246,6 +246,9 @@ namespace MelonDsDs::config {
         static constexpr const char *const LARGESCREEN_BOTTOM = "largescreen-bottom";
         static constexpr const char *const LARGESCREEN_TOP = "largescreen-top";
         static constexpr const char *const LEFT_RIGHT = "left-right";
+        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_CENTER = "stacked-largescreen-bottom-center";
+        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_LEFT = "stacked-largescreen-bottom-left";
+        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_RIGHT = "stacked-largescreen-bottom-right";
         static constexpr const char *const STACKED_LARGESCREEN_TOP_CENTER = "stacked-largescreen-top-center";
         static constexpr const char *const STACKED_LARGESCREEN_TOP_LEFT = "stacked-largescreen-top-left";
         static constexpr const char *const STACKED_LARGESCREEN_TOP_RIGHT = "stacked-largescreen-top-right";
