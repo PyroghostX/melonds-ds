@@ -81,6 +81,20 @@ namespace MelonDsDs {
         }
     }
 
+    /// Large top screen (scaled by the hybrid ratio) with the bottom screen
+    /// at native resolution directly underneath it. Because the small screen
+    /// is never downscaled, it stays sharp even with the software renderer.
+    constexpr bool IsStackedLargeScreenLayout(ScreenLayout layout) noexcept {
+        switch (layout) {
+            case ScreenLayout::StackedLargescreenTopLeft:
+            case ScreenLayout::StackedLargescreenTopCenter:
+            case ScreenLayout::StackedLargescreenTopRight:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     constexpr bool IsLargeScreenLayout(ScreenLayout layout) noexcept {
         switch (layout) {
             case ScreenLayout::LargescreenTop:
@@ -89,7 +103,7 @@ namespace MelonDsDs {
             case ScreenLayout::FlippedLargescreenBottom:
                 return true;
             default:
-                return false;
+                return IsStackedLargeScreenLayout(layout);
         }
     }
 
@@ -117,8 +131,13 @@ namespace MelonDsDs {
             // Top/Bottom or Bottom/Top layout (or one of its rotations)
             NDS_SCREEN_HEIGHT * 2 + MAX_SCREEN_GAP,
 
-            // Hybrid or large-screen layout
-            NDS_SCREEN_HEIGHT * MAX_HYBRID_RATIO
+            std::max(
+                // Hybrid or large-screen layout
+                NDS_SCREEN_HEIGHT * MAX_HYBRID_RATIO,
+
+                // Stacked large-screen layout: large screen, gap, then a native-size screen
+                NDS_SCREEN_HEIGHT * (MAX_HYBRID_RATIO + 1) + MAX_SCREEN_GAP
+            )
         );
     }
 
@@ -314,7 +333,7 @@ namespace MelonDsDs {
             case ScreenLayout::BottomTop:
                 return true;
             default:
-                return false;
+                return IsStackedLargeScreenLayout(layout);
         }
     }
 

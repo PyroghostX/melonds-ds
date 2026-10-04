@@ -92,6 +92,9 @@ constexpr array<unsigned, 18> GetPositionIndexes(MelonDsDs::ScreenLayout layout)
         case ScreenLayout::LeftRight:
         case ScreenLayout::LargescreenTop:
         case ScreenLayout::FlippedLargescreenBottom:
+        case ScreenLayout::StackedLargescreenTopLeft:
+        case ScreenLayout::StackedLargescreenTopCenter:
+        case ScreenLayout::StackedLargescreenTopRight:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 indexes[i] = topPositionIndexes[i];
                 indexes[i + VERTEXES_PER_SCREEN] = bottomPositionIndexes[i];
@@ -857,6 +860,9 @@ void MelonDsDs::OpenGLRenderState::InitVertices(const ScreenLayoutData& screenLa
         case ScreenLayout::LeftRight:
         case ScreenLayout::LargescreenTop:
         case ScreenLayout::FlippedLargescreenBottom:
+        case ScreenLayout::StackedLargescreenTopLeft:
+        case ScreenLayout::StackedLargescreenTopCenter:
+        case ScreenLayout::StackedLargescreenTopRight:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 // Top screen
                 screen_vertices[i] = {

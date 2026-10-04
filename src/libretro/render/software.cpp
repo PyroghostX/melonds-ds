@@ -250,7 +250,7 @@ void MelonDsDs::SoftwareRenderState::CombineScreens(
         }
     } 
     else if (IsLargeScreenLayout(layout)) {
-        bool focusTop = layout == ScreenLayout::LargescreenTop || layout == ScreenLayout::FlippedLargescreenTop;
+        bool focusTop = layout == ScreenLayout::LargescreenTop || layout == ScreenLayout::FlippedLargescreenTop || IsStackedLargeScreenLayout(layout);
         if (focusTop) {
             auto primaryBuffer = topBuffer;
             hybridScaler.Scale(hybridBuffer[0], primaryBuffer.data());
