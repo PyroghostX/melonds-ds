@@ -274,6 +274,9 @@ namespace MelonDsDs {
         [[nodiscard]] unsigned StackedSmallScreenSize() const noexcept { return _stackedSmallScreenSize; }
         void SetStackedSmallScreenSize(unsigned percent) noexcept { _stackedSmallScreenSize = percent; }
 
+        [[nodiscard]] ScreenAlignment StackedSmallScreenAlignment() const noexcept { return _stackedSmallScreenAlignment; }
+        void SetStackedSmallScreenAlignment(ScreenAlignment alignment) noexcept { _stackedSmallScreenAlignment = alignment; }
+
         [[nodiscard]] unsigned HybridRatio() const noexcept { return _hybridRatio; }
         void SetHybridRatio(unsigned hybridRatio) noexcept { _hybridRatio = hybridRatio; }
 
@@ -516,6 +519,7 @@ namespace MelonDsDs {
         unsigned _secondaryScreenScale = 100;
         MelonDsDs::ScreenFilter _secondaryScreenFilter = MelonDsDs::ScreenFilter::Nearest;
         unsigned _stackedSmallScreenSize = config::screen::DEFAULT_STACKED_SMALL_SCREEN_SIZE;
+        ScreenAlignment _stackedSmallScreenAlignment = ScreenAlignment::Right;
         unsigned _hybridRatio = 2;
         HybridSideScreenDisplay _smallScreenLayout;
         unsigned _cursorSize = 2.0f;

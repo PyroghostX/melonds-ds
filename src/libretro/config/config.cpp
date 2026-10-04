@@ -788,6 +788,13 @@ static void MelonDsDs::config::ParseScreenOptions(CoreConfig& config) noexcept {
         config.SetStackedSmallScreenSize(DEFAULT_STACKED_SMALL_SCREEN_SIZE);
     }
 
+    if (optional<ScreenAlignment> value = ParseScreenAlignment(get_variable(STACKED_SMALL_SCREEN_ALIGNMENT))) {
+        config.SetStackedSmallScreenAlignment(*value);
+    } else {
+        retro::warn("Failed to get value for {}; defaulting to {}", STACKED_SMALL_SCREEN_ALIGNMENT, values::RIGHT);
+        config.SetStackedSmallScreenAlignment(ScreenAlignment::Right);
+    }
+
     if (optional<unsigned> value = ParseIntegerInList<unsigned>(get_variable(CURSOR_TIMEOUT), CURSOR_TIMEOUTS)) {
         config.SetCursorTimeout(*value);
     } else {

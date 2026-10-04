@@ -92,9 +92,7 @@ constexpr array<unsigned, 18> GetPositionIndexes(MelonDsDs::ScreenLayout layout)
         case ScreenLayout::LeftRight:
         case ScreenLayout::LargescreenTop:
         case ScreenLayout::FlippedLargescreenBottom:
-        case ScreenLayout::StackedLargescreenTopLeft:
-        case ScreenLayout::StackedLargescreenTopCenter:
-        case ScreenLayout::StackedLargescreenTopRight:
+        case ScreenLayout::StackedLargescreenTop:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 indexes[i] = topPositionIndexes[i];
                 indexes[i + VERTEXES_PER_SCREEN] = bottomPositionIndexes[i];
@@ -104,9 +102,7 @@ constexpr array<unsigned, 18> GetPositionIndexes(MelonDsDs::ScreenLayout layout)
         case ScreenLayout::BottomTop:
         case ScreenLayout::LargescreenBottom:
         case ScreenLayout::FlippedLargescreenTop:
-        case ScreenLayout::StackedLargescreenBottomLeft:
-        case ScreenLayout::StackedLargescreenBottomCenter:
-        case ScreenLayout::StackedLargescreenBottomRight:
+        case ScreenLayout::StackedLargescreenBottom:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 indexes[i] = bottomPositionIndexes[i];
                 indexes[i + VERTEXES_PER_SCREEN] = topPositionIndexes[i];
@@ -863,9 +859,7 @@ void MelonDsDs::OpenGLRenderState::InitVertices(const ScreenLayoutData& screenLa
         case ScreenLayout::LeftRight:
         case ScreenLayout::LargescreenTop:
         case ScreenLayout::FlippedLargescreenBottom:
-        case ScreenLayout::StackedLargescreenTopLeft:
-        case ScreenLayout::StackedLargescreenTopCenter:
-        case ScreenLayout::StackedLargescreenTopRight:
+        case ScreenLayout::StackedLargescreenTop:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 // Top screen
                 screen_vertices[i] = {
@@ -884,9 +878,7 @@ void MelonDsDs::OpenGLRenderState::InitVertices(const ScreenLayoutData& screenLa
         case ScreenLayout::RightLeft:
         case ScreenLayout::LargescreenBottom:
         case ScreenLayout::FlippedLargescreenTop:
-        case ScreenLayout::StackedLargescreenBottomLeft:
-        case ScreenLayout::StackedLargescreenBottomCenter:
-        case ScreenLayout::StackedLargescreenBottomRight:
+        case ScreenLayout::StackedLargescreenBottom:
             for (unsigned i = 0; i < VERTEXES_PER_SCREEN; ++i) {
                 // Top screen
                 screen_vertices[i] = {

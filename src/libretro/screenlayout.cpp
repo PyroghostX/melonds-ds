@@ -53,6 +53,7 @@ MelonDsDs::ScreenLayoutData::ScreenLayoutData() :
     secondaryScreenScaleFactor(1.0f),
     hybridRatio(2),
     stackedSmallScreenSize(config::screen::DEFAULT_STACKED_SMALL_SCREEN_SIZE),
+    stackedSmallScreenAlignment(ScreenAlignment::Right),
     _numberOfLayouts(1) {
 }
 
@@ -126,7 +127,7 @@ constexpr mat3 StackedLargescreenNorthMatrix(unsigned resolutionScale, unsigned 
 }
 
 /// For the native-size screen under the large one in a Stacked Large Screen layout.
-/// alignment: 0 = left, 1 = center, 2 = right
+/// alignment: 0 = left, 1 = center, 2 = right (see ScreenAlignment)
 constexpr mat3 StackedLargescreenSouthMatrix(unsigned resolutionScale, unsigned smallScreenPercent, unsigned screenGap, unsigned alignment) noexcept {
     using namespace MelonDsDs;
     uvec2 largeSize = StackedLargeScreenSize(resolutionScale, smallScreenPercent);
@@ -136,19 +137,6 @@ constexpr mat3 StackedLargescreenSouthMatrix(unsigned resolutionScale, unsigned 
         vec2(static_cast<float>(xOffset), static_cast<float>(largeSize.y + resolutionScale * screenGap)),
         vec2(resolutionScale)
     );
-}
-
-constexpr unsigned StackedAlignment(MelonDsDs::ScreenLayout layout) noexcept {
-    using MelonDsDs::ScreenLayout;
-    switch (layout) {
-        case ScreenLayout::StackedLargescreenTopLeft:
-        case ScreenLayout::StackedLargescreenBottomLeft:
-            return 0;
-        case ScreenLayout::StackedLargescreenTopRight:
-        case ScreenLayout::StackedLargescreenBottomRight:
-            return 2;
-        default: return 1;
-    }
 }
 
 /// For the west hybrid screen
@@ -227,9 +215,7 @@ mat3 MelonDsDs::ScreenLayoutData::GetTopScreenMatrix(unsigned scale) const noexc
             return FlippedHybridNorthwestMatrix(scale, hybridRatio);
         case ScreenLayout::LargescreenTop:
             return HybridWestMatrix(scale, hybridRatio);
-        case ScreenLayout::StackedLargescreenTopLeft:
-        case ScreenLayout::StackedLargescreenTopCenter:
-        case ScreenLayout::StackedLargescreenTopRight:
+        case ScreenLayout::StackedLargescreenTop:
             return StackedLargescreenNorthMatrix(scale, stackedSmallScreenSize);
         case ScreenLayout::FlippedLargescreenTop:
             return FlippedHybridEastMatrix(scale, hybridRatio);
@@ -237,10 +223,8 @@ mat3 MelonDsDs::ScreenLayoutData::GetTopScreenMatrix(unsigned scale) const noexc
             return LargescreenEastMatrix(scale, hybridRatio);
         case ScreenLayout::FlippedLargescreenBottom:
             return FlippedLargescreenWestMatrix(scale, hybridRatio);
-        case ScreenLayout::StackedLargescreenBottomLeft:
-        case ScreenLayout::StackedLargescreenBottomCenter:
-        case ScreenLayout::StackedLargescreenBottomRight:
-            return StackedLargescreenSouthMatrix(scale, stackedSmallScreenSize, screenGap, StackedAlignment(Layout()));
+        case ScreenLayout::StackedLargescreenBottom:
+            return StackedLargescreenSouthMatrix(scale, stackedSmallScreenSize, screenGap, static_cast<unsigned>(stackedSmallScreenAlignment));
         default:
             return mat3(1);
     }
@@ -269,18 +253,14 @@ mat3 MelonDsDs::ScreenLayoutData::GetBottomScreenMatrix(unsigned scale) const no
             return FlippedHybridSouthwestMatrix(scale, hybridRatio);
         case ScreenLayout::LargescreenBottom:
             return HybridWestMatrix(scale, hybridRatio);
-        case ScreenLayout::StackedLargescreenBottomLeft:
-        case ScreenLayout::StackedLargescreenBottomCenter:
-        case ScreenLayout::StackedLargescreenBottomRight:
+        case ScreenLayout::StackedLargescreenBottom:
             return StackedLargescreenNorthMatrix(scale, stackedSmallScreenSize);
         case ScreenLayout::FlippedLargescreenBottom:
             return FlippedHybridEastMatrix(scale, hybridRatio);
         case ScreenLayout::LargescreenTop:
             return LargescreenEastMatrix(scale, hybridRatio);
-        case ScreenLayout::StackedLargescreenTopLeft:
-        case ScreenLayout::StackedLargescreenTopCenter:
-        case ScreenLayout::StackedLargescreenTopRight:
-            return StackedLargescreenSouthMatrix(scale, stackedSmallScreenSize, screenGap, StackedAlignment(Layout()));
+        case ScreenLayout::StackedLargescreenTop:
+            return StackedLargescreenSouthMatrix(scale, stackedSmallScreenSize, screenGap, static_cast<unsigned>(stackedSmallScreenAlignment));
         case ScreenLayout::FlippedLargescreenTop:
             return FlippedLargescreenWestMatrix(scale, hybridRatio);
         default:
@@ -315,6 +295,7 @@ void MelonDsDs::ScreenLayoutData::Apply(const CoreConfig& config, const RenderSt
     secondaryScreenScaleFactor = static_cast<float>(secondaryScreenScale) / 100.0f;
     HybridRatio(config.HybridRatio());
     StackedSmallScreenSize(config.StackedSmallScreenSize());
+    StackedSmallScreenAlignment(config.StackedSmallScreenAlignment());
     Update();
 }
 

@@ -516,23 +516,11 @@ auto fmt::formatter<MelonDsDs::ScreenLayout>::format(MelonDsDs::ScreenLayout lay
         case MelonDsDs::ScreenLayout::FlippedLargescreenBottom:
             name = "FlippedLargescreenBottom";
             break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenTopLeft:
-            name = "StackedLargescreenTopLeft";
+        case MelonDsDs::ScreenLayout::StackedLargescreenTop:
+            name = "StackedLargescreenTop";
             break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenTopCenter:
-            name = "StackedLargescreenTopCenter";
-            break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenTopRight:
-            name = "StackedLargescreenTopRight";
-            break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenBottomLeft:
-            name = "StackedLargescreenBottomLeft";
-            break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenBottomCenter:
-            name = "StackedLargescreenBottomCenter";
-            break;
-        case MelonDsDs::ScreenLayout::StackedLargescreenBottomRight:
-            name = "StackedLargescreenBottomRight";
+        case MelonDsDs::ScreenLayout::StackedLargescreenBottom:
+            name = "StackedLargescreenBottom";
             break;
         default:
             name = "<unknown>";

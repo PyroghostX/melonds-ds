@@ -156,6 +156,12 @@ namespace MelonDsDs {
         Linear,
     };
 
+    enum class ScreenAlignment {
+        Left = 0,
+        Center = 1,
+        Right = 2,
+    };
+
 
     enum class ScreenLayout {
         TopBottom = 0,
@@ -175,12 +181,8 @@ namespace MelonDsDs {
         LargescreenBottom = 14,
         FlippedLargescreenTop = 15,
         FlippedLargescreenBottom = 16,
-        StackedLargescreenTopLeft = 17,
-        StackedLargescreenTopCenter = 18,
-        StackedLargescreenTopRight = 19,
-        StackedLargescreenBottomLeft = 20,
-        StackedLargescreenBottomCenter = 21,
-        StackedLargescreenBottomRight = 22,
+        StackedLargescreenTop = 17,
+        StackedLargescreenBottom = 18,
     };
 
     enum class HybridSideScreenDisplay {

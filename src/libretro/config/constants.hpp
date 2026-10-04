@@ -108,6 +108,7 @@ namespace MelonDsDs::config {
         static constexpr const char* const SECONDARY_SCREEN_SCALE = "melonds_secondary_screen_scale";
         static constexpr const char* const SECONDARY_SCREEN_FILTERING = "melonds_secondary_screen_filtering";
         static constexpr const char* const STACKED_SMALL_SCREEN_SIZE = "melonds_stacked_small_screen_size";
+        static constexpr const char* const STACKED_SMALL_SCREEN_ALIGNMENT = "melonds_stacked_small_screen_alignment";
         static constexpr const char *const SCREEN_LAYOUT1 = "melonds_screen_layout1";
         static constexpr const char *const SCREEN_LAYOUT2 = "melonds_screen_layout2";
         static constexpr const char *const SCREEN_LAYOUT3 = "melonds_screen_layout3";
@@ -250,12 +251,11 @@ namespace MelonDsDs::config {
         static constexpr const char *const LARGESCREEN_BOTTOM = "largescreen-bottom";
         static constexpr const char *const LARGESCREEN_TOP = "largescreen-top";
         static constexpr const char *const LEFT_RIGHT = "left-right";
-        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_CENTER = "stacked-largescreen-bottom-center";
-        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_LEFT = "stacked-largescreen-bottom-left";
-        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM_RIGHT = "stacked-largescreen-bottom-right";
-        static constexpr const char *const STACKED_LARGESCREEN_TOP_CENTER = "stacked-largescreen-top-center";
-        static constexpr const char *const STACKED_LARGESCREEN_TOP_LEFT = "stacked-largescreen-top-left";
-        static constexpr const char *const STACKED_LARGESCREEN_TOP_RIGHT = "stacked-largescreen-top-right";
+        static constexpr const char *const STACKED_LARGESCREEN_BOTTOM = "stacked-largescreen-bottom";
+        static constexpr const char *const STACKED_LARGESCREEN_TOP = "stacked-largescreen-top";
+        static constexpr const char *const LEFT = "left";
+        static constexpr const char *const CENTER = "center";
+        static constexpr const char *const RIGHT = "right";
         static constexpr const char *const LINEAR = "linear";
         static constexpr const char *const NATIVE = "native";
         static constexpr const char *const NEAREST = "nearest";

@@ -86,12 +86,8 @@ namespace MelonDsDs {
     /// How much the large screen is enlarged is set by the Stacked Small Screen Size option.
     constexpr bool IsStackedLargeScreenLayout(ScreenLayout layout) noexcept {
         switch (layout) {
-            case ScreenLayout::StackedLargescreenTopLeft:
-            case ScreenLayout::StackedLargescreenTopCenter:
-            case ScreenLayout::StackedLargescreenTopRight:
-            case ScreenLayout::StackedLargescreenBottomLeft:
-            case ScreenLayout::StackedLargescreenBottomCenter:
-            case ScreenLayout::StackedLargescreenBottomRight:
+            case ScreenLayout::StackedLargescreenTop:
+            case ScreenLayout::StackedLargescreenBottom:
                 return true;
             default:
                 return false;
@@ -101,9 +97,7 @@ namespace MelonDsDs {
     /// A Stacked Large Screen layout whose large screen is the DS's bottom screen
     constexpr bool IsStackedLargeScreenBottomLayout(ScreenLayout layout) noexcept {
         switch (layout) {
-            case ScreenLayout::StackedLargescreenBottomLeft:
-            case ScreenLayout::StackedLargescreenBottomCenter:
-            case ScreenLayout::StackedLargescreenBottomRight:
+            case ScreenLayout::StackedLargescreenBottom:
                 return true;
             default:
                 return false;
@@ -292,6 +286,12 @@ namespace MelonDsDs {
             stackedSmallScreenSize = percent;
         }
 
+        ScreenAlignment StackedSmallScreenAlignment() const noexcept { return stackedSmallScreenAlignment; }
+        void StackedSmallScreenAlignment(ScreenAlignment alignment) noexcept {
+            if (IsStackedLargeScreenLayout(Layout()) && alignment != stackedSmallScreenAlignment) _dirty = true;
+            stackedSmallScreenAlignment = alignment;
+        }
+
         /// The size of the enlarged screen in a Hybrid or Large Screen layout at 1x, in pixels
         glm::uvec2 LargeScreenSize() const noexcept {
             if (IsStackedLargeScreenLayout(Layout())) {
@@ -363,6 +363,7 @@ namespace MelonDsDs {
         HybridSideScreenDisplay hybridSmallScreenLayout;
         unsigned hybridRatio;
         unsigned stackedSmallScreenSize;
+        ScreenAlignment stackedSmallScreenAlignment;
 
         unsigned _layoutIndex;
         unsigned _numberOfLayouts;

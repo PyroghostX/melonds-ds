@@ -159,12 +159,8 @@ namespace MelonDsDs {
         if (value == config::values::LARGESCREEN_BOTTOM) return ScreenLayout::LargescreenBottom;
         if (value == config::values::FLIPPED_LARGESCREEN_TOP) return ScreenLayout::FlippedLargescreenTop;
         if (value == config::values::FLIPPED_LARGESCREEN_BOTTOM) return ScreenLayout::FlippedLargescreenBottom;
-        if (value == config::values::STACKED_LARGESCREEN_TOP_LEFT) return ScreenLayout::StackedLargescreenTopLeft;
-        if (value == config::values::STACKED_LARGESCREEN_TOP_CENTER) return ScreenLayout::StackedLargescreenTopCenter;
-        if (value == config::values::STACKED_LARGESCREEN_TOP_RIGHT) return ScreenLayout::StackedLargescreenTopRight;
-        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_LEFT) return ScreenLayout::StackedLargescreenBottomLeft;
-        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_CENTER) return ScreenLayout::StackedLargescreenBottomCenter;
-        if (value == config::values::STACKED_LARGESCREEN_BOTTOM_RIGHT) return ScreenLayout::StackedLargescreenBottomRight;
+        if (value == config::values::STACKED_LARGESCREEN_TOP) return ScreenLayout::StackedLargescreenTop;
+        if (value == config::values::STACKED_LARGESCREEN_BOTTOM) return ScreenLayout::StackedLargescreenBottom;
         return std::nullopt;
     }
 
@@ -235,6 +231,14 @@ namespace MelonDsDs {
     constexpr std::optional<ScreenFilter> ParseScreenFilter(std::string_view value) noexcept {
         if (value == config::values::LINEAR) return ScreenFilter::Linear;
         if (value == config::values::NEAREST) return ScreenFilter::Nearest;
+
+        return std::nullopt;
+    }
+
+    constexpr std::optional<ScreenAlignment> ParseScreenAlignment(std::string_view value) noexcept {
+        if (value == config::values::LEFT) return ScreenAlignment::Left;
+        if (value == config::values::CENTER) return ScreenAlignment::Center;
+        if (value == config::values::RIGHT) return ScreenAlignment::Right;
 
         return std::nullopt;
     }
