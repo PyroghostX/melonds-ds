@@ -146,8 +146,11 @@ namespace MelonDsDs {
             std::max<unsigned>(
                 NDS_SCREEN_WIDTH * (MAX_HYBRID_RATIO + 1),
 
-                // Stacked large-screen layout at its smallest small screen
-                StackedLargeScreenSize(1, MIN_STACKED_SMALL_SCREEN_SIZE).x
+                // Stacked large-screen layout at its smallest small screen and widest shape
+                std::max<unsigned>(
+                    StackedLargeScreenSize(1, MIN_STACKED_SMALL_SCREEN_SIZE).x,
+                    ((StackedLargeScreenSize(1, MIN_STACKED_SMALL_SCREEN_SIZE).y + MAX_SCREEN_GAP + NDS_SCREEN_HEIGHT) * MAX_STACKED_ASPECT_RATIO + 99) / 100
+                )
             )
         );
         // (Rotated layouts use the same image as Top/Bottom,
@@ -292,6 +295,18 @@ namespace MelonDsDs {
             stackedSmallScreenAlignment = alignment;
         }
 
+        ScreenAlignment StackedLargeScreenAlignment() const noexcept { return stackedLargeScreenAlignment; }
+        void StackedLargeScreenAlignment(ScreenAlignment alignment) noexcept {
+            if (IsStackedLargeScreenLayout(Layout()) && alignment != stackedLargeScreenAlignment) _dirty = true;
+            stackedLargeScreenAlignment = alignment;
+        }
+
+        unsigned StackedAspectRatio() const noexcept { return stackedAspectRatio; }
+        void StackedAspectRatio(unsigned ratio) noexcept {
+            if (IsStackedLargeScreenLayout(Layout()) && ratio != stackedAspectRatio) _dirty = true;
+            stackedAspectRatio = ratio;
+        }
+
         /// The size of the enlarged screen in a Hybrid or Large Screen layout at 1x, in pixels
         glm::uvec2 LargeScreenSize() const noexcept {
             if (IsStackedLargeScreenLayout(Layout())) {
@@ -342,6 +357,7 @@ namespace MelonDsDs {
         glm::mat3 GetTopScreenMatrix(unsigned scale) const noexcept;
         glm::mat3 GetBottomScreenMatrix(unsigned scale) const noexcept;
         glm::mat3 GetHybridScreenMatrix(unsigned scale) const noexcept;
+        unsigned StackedPictureWidth(unsigned scale) const noexcept;
 
         bool _dirty;
         unsigned resolutionScale;
@@ -364,6 +380,8 @@ namespace MelonDsDs {
         unsigned hybridRatio;
         unsigned stackedSmallScreenSize;
         ScreenAlignment stackedSmallScreenAlignment;
+        ScreenAlignment stackedLargeScreenAlignment;
+        unsigned stackedAspectRatio;
 
         unsigned _layoutIndex;
         unsigned _numberOfLayouts;

@@ -277,6 +277,13 @@ namespace MelonDsDs {
         [[nodiscard]] ScreenAlignment StackedSmallScreenAlignment() const noexcept { return _stackedSmallScreenAlignment; }
         void SetStackedSmallScreenAlignment(ScreenAlignment alignment) noexcept { _stackedSmallScreenAlignment = alignment; }
 
+        [[nodiscard]] ScreenAlignment StackedLargeScreenAlignment() const noexcept { return _stackedLargeScreenAlignment; }
+        void SetStackedLargeScreenAlignment(ScreenAlignment alignment) noexcept { _stackedLargeScreenAlignment = alignment; }
+
+        /// Width / height of the stacked layout's image in hundredths, or 0 to fit the screens
+        [[nodiscard]] unsigned StackedAspectRatio() const noexcept { return _stackedAspectRatio; }
+        void SetStackedAspectRatio(unsigned ratio) noexcept { _stackedAspectRatio = ratio; }
+
         [[nodiscard]] unsigned HybridRatio() const noexcept { return _hybridRatio; }
         void SetHybridRatio(unsigned hybridRatio) noexcept { _hybridRatio = hybridRatio; }
 
@@ -520,6 +527,8 @@ namespace MelonDsDs {
         MelonDsDs::ScreenFilter _secondaryScreenFilter = MelonDsDs::ScreenFilter::Nearest;
         unsigned _stackedSmallScreenSize = config::screen::DEFAULT_STACKED_SMALL_SCREEN_SIZE;
         ScreenAlignment _stackedSmallScreenAlignment = ScreenAlignment::Right;
+        ScreenAlignment _stackedLargeScreenAlignment = ScreenAlignment::Center;
+        unsigned _stackedAspectRatio = 0;
         unsigned _hybridRatio = 2;
         HybridSideScreenDisplay _smallScreenLayout;
         unsigned _cursorSize = 2.0f;

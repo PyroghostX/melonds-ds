@@ -795,6 +795,22 @@ static void MelonDsDs::config::ParseScreenOptions(CoreConfig& config) noexcept {
         config.SetStackedSmallScreenAlignment(ScreenAlignment::Right);
     }
 
+    if (optional<ScreenAlignment> value = ParseScreenAlignment(get_variable(STACKED_LARGE_SCREEN_ALIGNMENT))) {
+        config.SetStackedLargeScreenAlignment(*value);
+    } else {
+        retro::warn("Failed to get value for {}; defaulting to {}", STACKED_LARGE_SCREEN_ALIGNMENT, values::CENTER);
+        config.SetStackedLargeScreenAlignment(ScreenAlignment::Center);
+    }
+
+    if (std::string_view value = get_variable(STACKED_ASPECT_RATIO); value == values::FIT) {
+        config.SetStackedAspectRatio(0);
+    } else if (optional<unsigned> ratio = ParseIntegerInRange<unsigned>(value, MIN_STACKED_ASPECT_RATIO, MAX_STACKED_ASPECT_RATIO)) {
+        config.SetStackedAspectRatio(*ratio);
+    } else {
+        retro::warn("Failed to get value for {}; defaulting to {}", STACKED_ASPECT_RATIO, values::FIT);
+        config.SetStackedAspectRatio(0);
+    }
+
     if (optional<unsigned> value = ParseIntegerInList<unsigned>(get_variable(CURSOR_TIMEOUT), CURSOR_TIMEOUTS)) {
         config.SetCursorTimeout(*value);
     } else {

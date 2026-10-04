@@ -81,7 +81,9 @@ namespace MelonDsDs::config::definitions {
         SecondaryScreenScale,
         SecondaryScreenFiltering,
         StackedSmallScreenSize,
+        StackedLargeScreenAlignment,
         StackedSmallScreenAlignment,
+        StackedAspectRatio,
 
         DnsOverride,
         Language,

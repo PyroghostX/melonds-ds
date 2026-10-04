@@ -97,6 +97,8 @@ namespace MelonDsDs::config {
         constexpr unsigned MIN_STACKED_SMALL_SCREEN_SIZE = 20; // percent of the large screen's width
         constexpr unsigned MAX_STACKED_SMALL_SCREEN_SIZE = 100;
         constexpr unsigned DEFAULT_STACKED_SMALL_SCREEN_SIZE = 50;
+        constexpr unsigned MIN_STACKED_ASPECT_RATIO = 50; // width / height, in hundredths
+        constexpr unsigned MAX_STACKED_ASPECT_RATIO = 150;
         static constexpr const char *const CATEGORY = "screen";
         static constexpr const char *const CURSOR_TIMEOUT = "melonds_cursor_timeout";
         static constexpr const char *const HYBRID_RATIO = "melonds_hybrid_ratio";
@@ -109,6 +111,8 @@ namespace MelonDsDs::config {
         static constexpr const char* const SECONDARY_SCREEN_FILTERING = "melonds_secondary_screen_filtering";
         static constexpr const char* const STACKED_SMALL_SCREEN_SIZE = "melonds_stacked_small_screen_size";
         static constexpr const char* const STACKED_SMALL_SCREEN_ALIGNMENT = "melonds_stacked_small_screen_alignment";
+        static constexpr const char* const STACKED_LARGE_SCREEN_ALIGNMENT = "melonds_stacked_large_screen_alignment";
+        static constexpr const char* const STACKED_ASPECT_RATIO = "melonds_stacked_aspect_ratio";
         static constexpr const char *const SCREEN_LAYOUT1 = "melonds_screen_layout1";
         static constexpr const char *const SCREEN_LAYOUT2 = "melonds_screen_layout2";
         static constexpr const char *const SCREEN_LAYOUT3 = "melonds_screen_layout3";
@@ -256,6 +260,7 @@ namespace MelonDsDs::config {
         static constexpr const char *const LEFT = "left";
         static constexpr const char *const CENTER = "center";
         static constexpr const char *const RIGHT = "right";
+        static constexpr const char *const FIT = "fit";
         static constexpr const char *const LINEAR = "linear";
         static constexpr const char *const NATIVE = "native";
         static constexpr const char *const NEAREST = "nearest";

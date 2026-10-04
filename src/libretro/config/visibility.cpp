@@ -189,6 +189,8 @@ bool MelonDsDs::CoreOptionVisibility::Update() noexcept {
     if (!VisibilityInitialized || ShowStackedOptions != oldShowStackedOptions) {
         set_option_visible(screen::STACKED_SMALL_SCREEN_SIZE, ShowStackedOptions);
         set_option_visible(screen::STACKED_SMALL_SCREEN_ALIGNMENT, ShowStackedOptions);
+        set_option_visible(screen::STACKED_LARGE_SCREEN_ALIGNMENT, ShowStackedOptions);
+        set_option_visible(screen::STACKED_ASPECT_RATIO, ShowStackedOptions);
         updated = true;
     }
 
